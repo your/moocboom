@@ -1,0 +1,127 @@
+<!--<div class="jumbotron">
+  <div class="container">
+    <ul class="alphabet">
+      <li ng-repeat="char in alphabet">
+        <span ng-click="filterByAlphabet(char)">{{char}}</span>
+      </li>
+    </ul>
+    <ul class="tags">
+      <li ng-repeat="utag in tags">
+        <span ng-click="filterByGenre(utag)">{{utag}}</span>
+      </li>
+    </ul>
+  </div>
+</div>-->
+
+<div ng-if="!currentUser">
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+            <div class="panel-body">
+    <h3>You have to login to check your deadlines, sorry.</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-if="currentUser">
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{headingTitle}}
+                <div class="pull-right">
+                    <input class="search" type="text" ng-model="query.name" placeholder="Filter by name...">
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row mooc-list" style="padding: 30px;">
+                    <div ng-repeat="mooc in moocs | filter:query | orderBy:'rating':true">
+                        <div> <!--class='text-center'-->
+                            <a href="/moocs/{{mooc._id}}">
+                                &nbsp;<img class="img-rounded" ng-src="{{mooc.photo}}" width="20%"/>
+                            </a>
+
+                            <p></p>
+
+                            <h2 class="media-heading"><a href="/moocs/{{mooc._id}}">&nbsp;{{mooc.name}}</a></h2>
+
+                            <p></p>
+                            <!--<p class="text-muted">Deadlines: {{deadlines.length}}</p>-->
+                        </div>
+                        <div class="dead-wrapper">
+                            <div ng-if="!currentUser">
+                                <h3>You have to login to check your deadlines.</h3>
+                            </div>
+
+                            <div ng-repeat="deadline in deadlines | filter:{moocId:mooc._id} | filter:cutExpired | orderBy:sortDeadline:false">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-custom"
+                                         role="progressbar" aria-valuenow="40"
+                                         aria-valuemin="0" aria-valuemax="100"
+                                         ng-style="computeStyle(deadline.endDate)">
+                                        <div class="dead-down">
+                                            &nbsp;
+                                            <a class="dead-info" href="{{deadline.url}}" target="_blank"
+                                               container="body" data-trigger="hover" data-type="success"
+                                               data-title="{{deadline.summary}}" bs-tooltip>
+                                            {{computeLeftStr(deadline.endDate)}}
+                                            </a>
+                                            <!--<a class="dead-info" href="javascript:void(0);"
+                                               data-placement="top-right" title="{{deadline.summary}}"
+                                               data-content="{{deadline.description}}"
+                                               data-trigger="focus" data-animatio="am-flip-x" bs-popover>
+                                                {{computeLeftStr(deadline.endDate)}}
+                                            </a>-->
+                                        </div>
+                                    </div>
+                                    <div class="btn-group" bs-checkbox-group>
+                                        <div ng-if="!isAlarmOn(deadline)" class="btn-group" bs-checkbox-group>
+                                            <button type="button" class="btn btn-default fa fa-bell red"
+                                                    container="body" data-trigger="hover" data-type="success"
+                                                    data-title="{{tooltip[0]}}" ng-click="alarmOn(deadline)"
+                                                    bs-tooltip></button>
+                                        </div>
+                                        <div ng-if="isAlarmOn(deadline)" class="btn-group" bs-checkbox-group>
+                                            <button type="button" class="btn btn-default fa fa-bell green"
+                                                    container="body" data-trigger="hover" data-type="success"
+                                                    data-title="{{tooltip[1]}}" ng-click="alarmOff(deadline)"
+                                                    bs-tooltip></button>
+                                        </div>
+                                        <div ng-if="!isSubsOn(deadline)" class="btn-group" bs-checkbox-group>
+                                            <div ng-if="isSubsDone(deadline)" class="btn-group" bs-checkbox-group>
+                                                <button type="button" class="btn btn-default fa fa-check-square-o green"
+                                                        container="body" data-trigger="hover" data-type="success"
+                                                        data-title="{{tooltip[4]}}" ng-click="unsubsDone(deadline)"
+                                                        bs-tooltip></button>
+                                            </div>
+                                            <div ng-if="!isSubsDone(deadline)" class="btn-group" bs-checkbox-group>
+                                                <button type="button" class="btn btn-default fa fa-graduation-cap red"
+                                                        container="body" data-trigger="hover" data-type="success"
+                                                        data-title="{{tooltip[2]}}" ng-click="subsOn(deadline)"
+                                                        bs-tooltip></button>
+                                            </div>
+                                        </div>
+
+                                        <div ng-if="isSubsOn(deadline)" class="btn-group" bs-checkbox-group>
+                                            <button type="button" class="btn btn-default fa fa-cog fa-spin orange"
+                                                    container="body" data-trigger="hover" data-type="success"
+                                                    data-title="{{tooltip[3]}}" ng-click="subsDone(deadline)"
+                                                    bs-tooltip></button>
+                                        </div>
+                                    </div>
+
+                                    <!--<div ng-if="isSubsOn(deadline)">
+                                      <label class="btn btn-default fa fa-bell"><input type="button"></label>
+                                        <label class="btn btn-default fa fa-bell"><input type="button"></label>
+                                      <label class="btn btn-default fa fa-graduation-cap"><input type="button">></label>
+                                  </div>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

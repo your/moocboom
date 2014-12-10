@@ -1,0 +1,72 @@
+<div ng-if="!currentUser">
+  <div class="container">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="panel-body">
+          <h3>You have to login to check your deadlines, sorry.</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div ng-if="currentUser">
+
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      {{headingTitle}}
+      <div class="pull-right">
+        <input class="search" type="text" ng-model="query.name" placeholder="Search...">
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="row mooc-list">
+        <div class="text-center" ng-if="moocs.length == 0">You have no courses yet.</div>
+
+        <div class="col-xs-4 col-md-3" ng-repeat="mooc in moocs | filter:query | orderBy:'rating':true">
+          <a href="/moocs/{{mooc._id}}">
+            <img class="img-rounded" ng-src="{{mooc.photo}}" width="100%"/>
+          </a>
+          <div class="text-center">
+            <a href="/moocs/{{mooc._id}}">{{mooc.name}}</a>
+            <!--<p class="text-muted">Upcoming Deadlines: {{deadlines.length}}</p>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-heading">Add new MOOC</div>
+    <div class="panel-body">
+      <form class="form" name="addForm">
+        <div class="form-group" ng-class="{ 'has-success' : addForm.showName.$valid && addForm.showName.$dirty, 'has-error' : addForm.showName.$invalid && addForm.showName.$dirty }">
+          <input type="text" class="form-control" name="showName" ng-model="$parent.selectedMooc" ng-click="onTextClick($event)" data-animation="am-fade" ng-options="mooc as mooc.name for mooc in getMooc($viewValue) | filter:{name:$viewValue}" placeholder="Find MOOC by name..." bs-typeahead required>
+          <div ng-if="loading">
+            <span class="fa fa-circle-o-notch fa-spin"></span>&nbsp;Wait a moment please...
+          </div>
+          <!--<i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>-->
+          <!--<input class="form-control" type="text" name="showName" ng-model="showName" placeholder="Enter MOOC name..." required autofocus>-->
+          <div class="help-block text-danger" ng-if="addForm.showName.$dirty" ng-messages="addForm.showName.$error">
+            <div ng-message="required">MOOC name is required!</div>
+          </div>
+        </div>
+        <div ng-if="!isChecked">
+          <button class="btn btn-primary" ng-click="analyzeMooc()">Check {{selectedMooc.name}}</button>
+        </div>
+        </form>
+        <form class="form" method="post" ng-submit="addMooc(sendForm, addForm)" name="sendForm">
+          <input type="hidden" name="generatedMooc" ng-model="$parent.generatedMooc" value="{{generatedMooc}}">
+          <div ng-if="isChecked">
+            <button class="btn btn-primary illumina" type="submit" ng-disabled="sendForm.$invalid">Add {{selectedMooc.name}} to your courses!</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+  </div>

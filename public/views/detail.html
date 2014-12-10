@@ -1,0 +1,79 @@
+<div ng-if="!currentUser">
+  <div class="container">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="panel-body">
+          <h3>You have to login to check your deadlines, sorry.</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div ng-if="currentUser">
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <div class="media">
+        <div class="pull-left">
+          <img class="media-object img-rounded" ng-src="{{mooc.photo}}">
+          <div class="text-center" ng-if="currentUser">
+            <div ng-if="!isSubscribed()">
+              <button ng-click="subscribe()" class="btn btn-block btn-success">
+                <span class="glyphicon glyphicon-plus"></span> Subscribe
+              </button>
+            </div>
+            <div ng-if="isSubscribed()">
+              <button ng-click="unsubscribe()" class="btn btn-block btn-danger">
+                <span class="glyphicon glyphicon-minus"></span> Unsubscribe
+              </button>
+            </div>
+          </div>
+          <div class="text-center" ng-if="!currentUser">
+            <a class="btn btn-block btn-primary" href="#/login">Login to Subscribe</a>
+          </div>
+        </div>
+        <div class="media-body">
+          <h2 class="media-heading">
+            {{mooc.name}}
+            <span class="pull-right text-danger">{{mooc.rating}}</span>
+          </h2>
+          <h4 ng-mooc="mooc.status === '1'">
+            <span class="glyphicon glyphicon-calendar text-danger"></span>
+            {{convertDate(mooc.sessions[0].startDate)}} - {{convertDate(mooc.sessions[0].endDate)}} on
+            {{mooc.provider}}
+          </h4>
+          <h4 ng-mooc="mooc.status === '1'">
+            Status: <span class="text-danger">Ended</span>
+          </h4>
+          <p>{{mooc.description}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-info" ng-mooc="nextDeadline">
+    Next deadline: {{nextDeadline.endDate | fromNow}}.
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <span class="glyphicon glyphicon-play"></span> Deadlines
+    </div>
+    <div class="panel-body">
+
+      <div class="deadline" ng-repeat="deadline in deadlines | filter:isForThisMooc">
+        <h4>{{deadline.summary}}
+        <small>Type {{deadline.type}}, Level {{deadline.hard}}</small>
+        </h4>
+        <p>
+          <span class="glyphicon glyphicon-calendar"></span>
+          {{convertDateFromUnix(deadline.endDate) | date: 'short'}} <!-- | date: 'short' -->
+        </p>
+        <p>{{deadline.description}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

@@ -378,7 +378,7 @@ angular.module('MyApp')
                         zoneSize = zonePerc;
                     }
 
-                    if (zoneSize < ZONE_MIN_PERC*2) {
+                    if (zoneSize < ZONE_MIN_PERC*2 && zoneType != 'D') { // modo rozzo, aggiusta
                         zoneSize = ZONE_MIN_PERC*2;
                     }
 

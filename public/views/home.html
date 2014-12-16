@@ -12,7 +12,6 @@
     </ul>
   </div>
 </div>-->
-
 <div ng-if="!currentUser">
     <div class="container">
         <div class="panel panel-default">
@@ -25,6 +24,7 @@
         </div>
     </div>
 </div>
+<!--<input id="ex11" type="text" data-slider-handle="custom"/>-->
 <div ng-if="currentUser">
     <div class="container">
         <div class="panel panel-default">
@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="panel-body">
-                <div class="row mooc-list" style="padding: 30px;">
+                <div class="row" style="padding: 30px;">
                     <div ng-repeat="mooc in moocs | filter:query | orderBy:'rating':true">
                         <div> <!--class='text-center'-->
                             <a href="/moocs/{{mooc._id}}">
@@ -44,7 +44,16 @@
 
                             <p></p>
 
-                            <h2 class="media-heading"><a href="/moocs/{{mooc._id}}">&nbsp;{{mooc.name}}</a></h2>
+                            <h2 class="media-heading"><a href="/moocs/{{mooc._id}}">&nbsp;{{mooc.name}}</a>
+                                    <i class="fa fa-bell-slash red pointer"
+                                       container="body" data-trigger="hover" data-type="success"
+                                       data-title="{{tooltip[0]}}"
+                                       bs-tooltip></i>
+                                    <!--<i class="fa fa-bell green pointer"
+                                       container="body" data-trigger="hover" data-type="success"
+                                       data-title="{{tooltip[1]}}" ng-click="alarmOff(deadline)"
+                                       bs-tooltip></i>-->
+                            </h2>
 
                             <p></p>
                             <!--<p class="text-muted">Deadlines: {{deadlines.length}}</p>-->
@@ -55,18 +64,194 @@
                             </div>
 
                             <div ng-repeat="deadline in deadlines | filter:{moocId:mooc._id} | filter:cutExpired | orderBy:sortDeadline:false">
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-custom"
-                                         role="progressbar" aria-valuenow="40"
-                                         aria-valuemin="0" aria-valuemax="100"
-                                         ng-style="computeStyle(deadline.endDate)">
-                                        <div class="dead-down">
+                                <div class="progress" ng-class="{ 'progress-striped active' : isSubsOn(deadline) }">
+                                    <div class="progress-bar with-countdown"
+                                         ng-class="{ 'danger-zone' : !isSubsDone(deadline), 'progress-bar-info' : isSubsDone(deadline) }"
+                                         ng-style="computeZone('D',deadline.endDate)">
+                                        <div ng-if="!isEndingNow(deadline.endDate) && isInZone('D',deadline.endDate)" class="dead-btn-wrapper">
                                             &nbsp;
-                                            <a class="dead-info" href="{{deadline.url}}" target="_blank"
+                                            <!--<a class="dead-info" href="{{deadline.url}}" target="_blank"
                                                container="body" data-trigger="hover" data-type="success"
                                                data-title="{{deadline.summary}}" bs-tooltip>
-                                            {{computeLeftStr(deadline.endDate)}}
-                                            </a>
+                                                {{computeLeftStr(deadline.endDate)}}
+                                            </a>-->
+                                            <div class="dead-btn-second">
+
+                                            <span class="label label-danger">
+                                            <a href="javascript:void(0)"
+                                               class="dead-info"
+                                               title="{{deadline.summary}}"
+                                               data-content="
+                                                    <i class='fa fa-calendar'> Due: {{getLocalDate(deadline.endDate)}}</i><br><br>
+                                                    <i class='fa fa-info-circle'></i> {{deadline.description}}<br><br>
+                                                    <i class='fa fa-external-link black'></i><a href='{{deadline.url}}'> Open Assignment Page</a><br>"
+                                               data-template="views/popover.tpl.html"
+                                               data-animation="am-flip-x"
+                                               placement="bottom"
+                                               data-auto-close="1"
+                                               html="true"
+                                               bs-popover>{{computeLeftStr(deadline.endDate)}}</a></span>
+                                                <!--&nbsp;-->
+                                            </div>
+
+                                            <div class="dead-btn-first">
+                                                <div class="wrapper">
+                                                    <div class="inner1">
+                                                        <i ng-if="!isAlarmOn(deadline)" class="fa fa-calendar-o red pointer"
+                                                           container="body" data-trigger="hover" data-placement="top-left"
+                                                           data-title="{{tooltip[0]}}" ng-click="alarmOn(deadline)"
+                                                           bs-tooltip></i>
+                                                        <i ng-if="isAlarmOn(deadline)" class="fa fa-calendar-o green pointer"
+                                                           container="body" data-trigger="hover" data-placement="top-left"
+                                                           data-title="{{tooltip[1]}}" ng-click="alarmOff(deadline)"
+                                                           bs-tooltip></i>
+                                                    </div>
+                                                    <div ng-if="!isSubsOn(deadline)" class="inner2">
+                                                        <i ng-if="isSubsDone(deadline)" class="fa fa-check-circle green pointer"
+                                                           container="body" data-trigger="hover"  data-placement="top-left"
+                                                           data-title="{{tooltip[4]}}" ng-click="unsubsDone(deadline)"
+                                                           bs-tooltip></i>
+                                                        <i ng-if="!isSubsDone(deadline)" class="fa fa-exclamation-triangle fa-spin red pointer"
+                                                           container="body" data-trigger="hover" data-placement="top-left"
+                                                           data-title="{{tooltip[2]}}" ng-click="subsOn(deadline)"
+                                                           bs-tooltip></i>
+                                                    </div>
+                                                    <div ng-if="isSubsOn(deadline)" class="inner2">
+                                                        <i class="fa fa-circle-o-notch fa-spin orange pointer"
+                                                           container="body" data-trigger="hover" data-placement="top-left"
+                                                           data-title="{{tooltip[3]}}" ng-click="subsDone(deadline)"
+                                                           bs-tooltip></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="progress-bar with-countdown"
+                                         ng-class="{ 'warning-zone progress-bar-separator' : !isSubsDone(deadline), 'progress-bar-info' : isSubsDone(deadline)}"
+                                         ng-style="computeZone('W',deadline.endDate)">
+                                        <div ng-if="isInZone('W',deadline.endDate)" class="dead-btn-wrapper">
+                                            <!--<span class="badge"><i class="fa fa-users"></i>&nbsp;42</span>-->
+                                            <!--<a class="dead-info" href="{{deadline.url}}" target="_blank"
+                                               container="body" data-trigger="hover" data-type="success"
+                                               data-title="{{deadline.summary}}" bs-tooltip>
+                                                {{computeLeftStr(deadline.endDate)}}
+                                            </a>-->
+                                            <div class="dead-btn-second">
+
+                                            <span class="label label-danger">
+                                            <a href="javascript:void(0)"
+                                               class="dead-info"
+                                               title="{{deadline.summary}}"
+                                               data-content="
+                                                    <i class='fa fa-calendar'> Due: {{getLocalDate(deadline.endDate)}}</i><br><br>
+                                                    <i class='fa fa-info-circle'></i> {{deadline.description}}<br><br>
+                                                    <i class='fa fa-external-link black'></i><a href='{{deadline.url}}'> Open Assignment Page</a><br>"
+                                               data-template="views/popover.tpl.html"
+                                               data-animation="am-flip-x"
+                                               placement="bottom"
+                                               data-auto-close="1"
+                                               html="true"
+                                               bs-popover>{{computeLeftStr(deadline.endDate)}}</a></span>
+                                                <!--&nbsp;-->
+                                            </div>
+
+                                            <div class="dead-btn-first">
+                                                <div class="wrapper">
+                                                    <div class="inner1">
+                                                        <i ng-if="!isAlarmOn(deadline)" class="fa fa-calendar-o red pointer"
+                                                           container="body" data-trigger="hover" data-placement="top-left"
+                                                           data-title="{{tooltip[0]}}" ng-click="alarmOn(deadline)"
+                                                           bs-tooltip></i>
+                                                        <i ng-if="isAlarmOn(deadline)" class="fa fa-calendar-o green pointer"
+                                                           container="body" data-trigger="hover" data-placement="top-left"
+                                                           data-title="{{tooltip[1]}}" ng-click="alarmOff(deadline)"
+                                                           bs-tooltip></i>
+                                                    </div>
+                                                    <div ng-if="!isSubsOn(deadline)" class="inner2">
+                                                        <i ng-if="isSubsDone(deadline)" class="fa fa-check-circle green pointer"
+                                                           container="body" data-trigger="hover" data-placement="top-left"
+                                                           data-title="{{tooltip[4]}}" ng-click="unsubsDone(deadline)"
+                                                           bs-tooltip></i>
+                                                        <i ng-if="!isSubsDone(deadline)" class="fa fa-exclamation-triangle red pointer"
+                                                           container="body" data-trigger="hover" data-placement="top-left"
+                                                           data-title="{{tooltip[2]}}" ng-click="subsOn(deadline)"
+                                                           bs-tooltip></i>
+                                                    </div>
+                                                    <div ng-if="isSubsOn(deadline)" class="inner2">
+                                                        <i class="fa fa-circle-o-notch fa-spin orange pointer"
+                                                           container="body" data-trigger="hover" data-placement="top-left"
+                                                           data-title="{{tooltip[3]}}" ng-click="subsDone(deadline)"
+                                                           bs-tooltip></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="progress-bar with-countdown"
+                                         ng-class="{ 'relax-zone' : !isSubsDone(deadline), 'progress-bar-info' : isSubsDone(deadline) }"
+                                         ng-style="computeZone('R',deadline.endDate)">
+
+                                        <div ng-if="isInZone('R',deadline.endDate)" class="dead-btn-wrapper">
+                                            <!--<span class="badge"><i class="fa fa-users"></i>&nbsp;42</span>-->
+                                            <!--<a class="dead-info" href="{{deadline.url}}" target="_blank"
+                                               container="body" data-trigger="hover" data-type="success"
+                                               data-title="{{deadline.summary}}" bs-tooltip>
+                                                {{computeLeftStr(deadline.endDate)}}
+                                            </a>-->
+
+                                            <!--<i class="fa fa-bell"></i>-->
+                                            <div class="dead-btn-second">
+
+                                            <span class="label label-primary">
+                                            <a href="javascript:void(0)"
+                                                    class="dead-info"
+                                                    title="{{deadline.summary}}"
+                                                    data-content="
+                                                    <i class='fa fa-calendar'> Due: {{getLocalDate(deadline.endDate)}}</i><br><br>
+                                                    <i class='fa fa-info-circle'></i> {{deadline.description}}<br><br>
+                                                    <i class='fa fa-external-link black'></i><a href='{{deadline.url}}'> Open Assignment Page</a><br>"
+                                                    data-template="views/popover.tpl.html"
+                                                    data-animation="am-flip-x"
+                                                    placement="bottom"
+                                                    data-auto-close="1"
+                                                    html="true"
+                                                    bs-popover>{{computeLeftStr(deadline.endDate)}}</a></span>
+                                            <!--&nbsp;-->
+                                                </div>
+
+                                            <div class="dead-btn-first">
+                                                <div class="wrapper">
+                                                    <div class="inner1">
+                                                        <i ng-if="!isAlarmOn(deadline)" class="fa fa-calendar-o red pointer"
+                                                           container="body" data-trigger="hover" data-placement="top-left"
+                                                           data-title="{{tooltip[0]}}" ng-click="alarmOn(deadline)"
+                                                           bs-tooltip></i>
+                                                        <i ng-if="isAlarmOn(deadline)" class="fa fa-calendar-o green pointer"
+                                                           container="body" data-trigger="hover" data-placement="top-left"
+                                                           data-title="{{tooltip[1]}}" ng-click="alarmOff(deadline)"
+                                                           bs-tooltip></i>
+                                                    </div>
+                                                    <div ng-if="!isSubsOn(deadline)" class="inner2">
+                                                        <i ng-if="isSubsDone(deadline)" class="fa fa-check-circle green pointer"
+                                                           container="body" data-trigger="hover" data-placement="top-left"
+                                                           data-title="{{tooltip[4]}}" ng-click="unsubsDone(deadline)"
+                                                           bs-tooltip></i>
+                                                        <i ng-if="!isSubsDone(deadline)" class="fa fa-exclamation-triangle red pointer"
+                                                           container="body" data-trigger="hover" data-placement="top-left"
+                                                           data-title="{{tooltip[2]}}" ng-click="subsOn(deadline)"
+                                                           bs-tooltip></i>
+                                                    </div>
+                                                    <div ng-if="isSubsOn(deadline)" class="inner2">
+                                                        <i class="fa fa-circle-o-notch fa-spin orange pointer"
+                                                           container="body" data-trigger="hover" data-placement="top-left"
+                                                           data-title="{{tooltip[3]}}" ng-click="subsDone(deadline)"
+                                                           bs-tooltip></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!-- stava qui prima dead-down, rimettilo qui -->
                                             <!--<a class="dead-info" href="javascript:void(0);"
                                                data-placement="top-right" title="{{deadline.summary}}"
                                                data-content="{{deadline.description}}"
@@ -74,42 +259,99 @@
                                                 {{computeLeftStr(deadline.endDate)}}
                                             </a>-->
                                         </div>
-                                    </div>
-                                    <div class="btn-group" bs-checkbox-group>
-                                        <div ng-if="!isAlarmOn(deadline)" class="btn-group" bs-checkbox-group>
-                                            <button type="button" class="btn btn-default fa fa-bell red"
-                                                    container="body" data-trigger="hover" data-type="success"
-                                                    data-title="{{tooltip[0]}}" ng-click="alarmOn(deadline)"
-                                                    bs-tooltip></button>
-                                        </div>
-                                        <div ng-if="isAlarmOn(deadline)" class="btn-group" bs-checkbox-group>
-                                            <button type="button" class="btn btn-default fa fa-bell green"
-                                                    container="body" data-trigger="hover" data-type="success"
-                                                    data-title="{{tooltip[1]}}" ng-click="alarmOff(deadline)"
-                                                    bs-tooltip></button>
-                                        </div>
-                                        <div ng-if="!isSubsOn(deadline)" class="btn-group" bs-checkbox-group>
-                                            <div ng-if="isSubsDone(deadline)" class="btn-group" bs-checkbox-group>
-                                                <button type="button" class="btn btn-default fa fa-check-square-o green"
-                                                        container="body" data-trigger="hover" data-type="success"
-                                                        data-title="{{tooltip[4]}}" ng-click="unsubsDone(deadline)"
-                                                        bs-tooltip></button>
-                                            </div>
-                                            <div ng-if="!isSubsDone(deadline)" class="btn-group" bs-checkbox-group>
-                                                <button type="button" class="btn btn-default fa fa-graduation-cap red"
-                                                        container="body" data-trigger="hover" data-type="success"
-                                                        data-title="{{tooltip[2]}}" ng-click="subsOn(deadline)"
-                                                        bs-tooltip></button>
-                                            </div>
+                                    <div ng-if="isEndingNow(deadline.endDate)" class="dead-btn-wrapper float-me-left with-countdown">
+                                        &nbsp;
+                                        <!--<a class="dead-danger" href="{{deadline.url}}" target="_blank"
+                                           container="body" data-trigger="hover" data-type="success"
+                                           data-title="{{deadline.summary}}" bs-tooltip>
+                                            {{computeLeftStr(deadline.endDate)}}
+                                        </a>-->
+                                        <div class="dead-btn-second">
+
+                                            <span class="label label-danger">
+                                            <a href="javascript:void(0)"
+                                               class="dead-info"
+                                               title="{{deadline.summary}}"
+                                               data-content="
+                                                    <i class='fa fa-calendar'> Due: {{getLocalDate(deadline.endDate)}}</i><br><br>
+                                                    <i class='fa fa-info-circle'></i> {{deadline.description}}<br><br>
+                                                    <i class='fa fa-external-link black'></i><a href='{{deadline.url}}'> Open Assignment Page</a><br>"
+                                               data-template="views/popover.tpl.html"
+                                               data-animation="am-flip-x"
+                                               placement="bottom"
+                                               data-auto-close="1"
+                                               html="true"
+                                               bs-popover>{{computeLeftStr(deadline.endDate)}}</a></span>
+                                            <!--&nbsp;-->
                                         </div>
 
-                                        <div ng-if="isSubsOn(deadline)" class="btn-group" bs-checkbox-group>
-                                            <button type="button" class="btn btn-default fa fa-cog fa-spin orange"
+                                        <div class="dead-btn-first">
+                                            <div class="wrapper">
+                                                <div class="inner1">
+                                                    <i ng-if="!isAlarmOn(deadline)" class="fa fa-calendar-o red pointer"
+                                                       container="body" data-trigger="hover" data-placement="top-left"
+                                                       data-title="{{tooltip[0]}}" ng-click="alarmOn(deadline)"
+                                                       bs-tooltip></i>
+                                                    <i ng-if="isAlarmOn(deadline)" class="fa fa-calendar-o green pointer"
+                                                       container="body" data-trigger="hover" data-placement="top-left"
+                                                       data-title="{{tooltip[1]}}" ng-click="alarmOff(deadline)"
+                                                       bs-tooltip></i>
+                                                </div>
+                                                <div ng-if="!isSubsOn(deadline)" class="inner2">
+                                                    <i ng-if="isSubsDone(deadline)" class="fa fa-check-circle green pointer"
+                                                       container="body" data-trigger="hover" data-placement="top-left"
+                                                       data-title="{{tooltip[4]}}" ng-click="unsubsDone(deadline)"
+                                                       bs-tooltip></i>
+                                                    <i ng-if="!isSubsDone(deadline)" class="fa fa-exclamation-triangle red pointer"
+                                                       container="body" data-trigger="hover" data-placement="top-left"
+                                                       data-title="{{tooltip[2]}}" ng-click="subsOn(deadline)"
+                                                       bs-tooltip></i>
+                                                </div>
+                                                <div ng-if="isSubsOn(deadline)" class="inner2">
+                                                    <i class="fa fa-exclamation fa-spin orange pointer"
+                                                       container="body" data-trigger="hover" data-placement="top-left"
+                                                       data-title="{{tooltip[3]}}" ng-click="subsDone(deadline)"
+                                                       bs-tooltip></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--
+                                <div class="btn-group" bs-checkbox-group>
+                                    <div ng-if="!isAlarmOn(deadline)" class="btn-group" bs-checkbox-group>
+                                        <button type="button" class="btn btn-default fa fa-bell red"
+                                                container="body" data-trigger="hover" data-type="success"
+                                                data-title="{{tooltip[0]}}" ng-click="alarmOn(deadline)"
+                                                bs-tooltip></button>
+                                    </div>
+                                    <div ng-if="isAlarmOn(deadline)" class="btn-group" bs-checkbox-group>
+                                        <button type="button" class="btn btn-default fa fa-bell green"
+                                                container="body" data-trigger="hover" data-type="success"
+                                                data-title="{{tooltip[1]}}" ng-click="alarmOff(deadline)"
+                                                bs-tooltip></button>
+                                    </div>
+                                    <div ng-if="!isSubsOn(deadline)" class="btn-group" bs-checkbox-group>
+                                        <div ng-if="isSubsDone(deadline)" class="btn-group" bs-checkbox-group>
+                                            <button type="button" class="btn btn-default fa fa-check-square-o green"
                                                     container="body" data-trigger="hover" data-type="success"
-                                                    data-title="{{tooltip[3]}}" ng-click="subsDone(deadline)"
+                                                    data-title="{{tooltip[4]}}" ng-click="unsubsDone(deadline)"
+                                                    bs-tooltip></button>
+                                        </div>
+                                        <div ng-if="!isSubsDone(deadline)" class="btn-group" bs-checkbox-group>
+                                            <button type="button" class="btn btn-default fa fa-graduation-cap red"
+                                                    container="body" data-trigger="hover" data-type="success"
+                                                    data-title="{{tooltip[2]}}" ng-click="subsOn(deadline)"
                                                     bs-tooltip></button>
                                         </div>
                                     </div>
+
+                                    <div ng-if="isSubsOn(deadline)" class="btn-group" bs-checkbox-group>
+                                        <button type="button" class="btn btn-default fa fa-cog fa-spin orange"
+                                                container="body" data-trigger="hover" data-type="success"
+                                                data-title="{{tooltip[3]}}" ng-click="subsDone(deadline)"
+                                                bs-tooltip></button>
+                                    </div>
+                                </div>-->
 
                                     <!--<div ng-if="isSubsOn(deadline)">
                                       <label class="btn btn-default fa fa-bell"><input type="button"></label>

@@ -4854,16 +4854,15 @@ em {
   50% {
     opacity: 1; } }
 
-.dead-down {
-  font-weight: 300;
-  font-size: 1.2em; }
-
 .progress {
-  background: whitesmoke;
-  border: 1px solid whitesmoke;
+  /*background: rgba(245, 245, 245, 1);*/
+  background: rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  /*rgba(245, 245, 245, 1);*/
   border-radius: 10px;
-  height: 35px;
-  margin-bottom: 2px; }
+  height: 38px;
+  margin-bottom: 2px;
+  margin-top: 1px; }
 
 .progress-bar-custom {
   font-weight: 300;
@@ -4874,7 +4873,75 @@ em {
   padding: 8px 15px 15px 15px;
   margin: 0px auto 0px auto;
   display: block;
-  background: #428bca; }
+  /*background: rgba(66, 139, 202, 1);*/ }
+
+.with-countdown {
+  margin: 0px auto 0px auto;
+  font-weight: 300;
+  font-size: 1.05em;
+  text-align: right; }
+
+.progress-bar-void {
+  background: grey; }
+
+.progress-bar-separator {
+  margin-left: 0.1%;
+  margin-right: 0.1%;
+  display: block; }
+
+.dead-down {
+  margin: 0px auto 0px auto;
+  padding-top: 8px;
+  font-weight: 300;
+  font-size: 1.05em; }
+
+.dead-danger {
+  margin: 0px auto 0px auto;
+  padding-top: 8px;
+  font-weight: 300;
+  font-size: 1.05em; }
+
+.pointer {
+  cursor: pointer; }
+
+.dead-danger {
+  color: darkred;
+  text-decoration: none; }
+
+.dead-danger:hover {
+  color: #000;
+  text-decoration: none; }
+
+.dead-danger:active {
+  color: darkred;
+  text-decoration: none; }
+
+.dead-danger:visited {
+  color: darkred;
+  text-decoration: none; }
+
+/* http://www.colourlovers.com/palette/1565438/Vapor_Kiss */
+.relax-zone {
+  background: #3a7c35; }
+
+.warning-zone {
+  background: #EDA745; }
+
+.danger-zone {
+  background: #c44230; }
+
+.zeroed {
+  width: 0%;
+}
+.with-opacity {
+  opacity: 0.99;
+  filter: alpha(opacity=99);
+  /* For IE8 and earlier */ }
+
+.with-more-opacity {
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+  /* For IE8 and earlier */ }
 
 .blue {
   color: blue; }
@@ -4886,6 +4953,9 @@ em {
 
 .green {
   color: green; }
+
+.black {
+  color: black; }
 
 .illumina {
   font-size: 0.9em;
@@ -4900,26 +4970,176 @@ em {
   margin-top: 1px; }
 
 .dead-wrapper {
-  padding-bottom: 50px; }
+  padding-bottom: 50px;
+  /*background: #f2e8d5;*/ }
 
 .dead-name {
   margin-top: 10px; }
 
-.dead-info {
-  color: dimgray; }
+.dead-header {
+  font-size: 1.1em; }
 
 .dead-info {
   color: white;
   text-decoration: none; }
 
 .dead-info:hover {
-  color: #D1D0D0;
+  color: #000;
   text-decoration: none; }
 
 .dead-info:active {
   color: white;
   text-decoration: none; }
 
+.dead-info:focus {
+  color: white;
+  text-decoration: none; }
+
 .dead-info:visited {
   color: white;
   text-decoration: none; }
+
+a {
+  color: #000;
+  text-decoration: none; }
+
+a:hover {
+  color: darkgrey;
+  text-decoration: none; }
+
+a:active {
+  color: #000;
+  text-decoration: none; }
+
+a:focus {
+  color: #000;
+  text-decoration: none; }
+
+a:visited {
+  color: #000;
+  text-decoration: none; }
+
+.dead-btn-wrapper {
+  padding: 0px 0px 0px 0px;
+  height: 36px;
+  margin: 0;
+  overflow: hidden;
+  /* will contain if #first is longer than #second */
+  font-weight: 300;
+  font-size: 1.05em; }
+
+.float-me-left {
+  float: left; }
+
+.dead-btn-first {
+  padding: 7px 10px 6px 4px;
+  float: right;
+  /* add this */
+  height: 36px;
+  border-radius: 0.1em;
+  background: #f5f5f5; }
+
+.dead-btn-second {
+  display: inline;
+  line-height: 0.5;
+  font-family: 'Gibson', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.05em;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.1em;
+  height: 38px;
+  padding: 14px 0px 0px 0px;
+  margin: 0;
+  margin-right: -1px;
+  margin-left: -1px;
+  float: right;
+  overflow: hidden;
+  /* if you don't want #second to wrap below #first */ }
+
+.wrapper {
+  margin-left: auto;
+  margin-right: auto;
+  height: auto;
+  width: auto; }
+
+.inner1 {
+  padding: 2px 5px 5px 4px;
+  text-align: center;
+  width: 30px;
+  float: left; }
+
+.inner2 {
+  padding: 2px 5px 5px 4px;
+  text-align: center;
+  width: 20px;
+  float: left; }
+
+.mini {
+  width: 3px;
+  height: 3px; }
+
+.label, .tags li, .tags li {
+  display: inline;
+  padding: 1em 0.7em 0.7em 0.7em;
+  line-height: 0.5;
+  font-family: 'Gibson', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.9em;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.1em; }
+
+.label[href]:hover, .tags li[href]:hover, .tags li[href]:hover, .label[href]:focus, .tags li[href]:focus, .tags li[href]:focus {
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer; }
+
+.label:empty, .tags li:empty, .tags li:empty {
+  display: none; }
+
+.btn .label, .btn .tags li, .tags .btn li, .btn .tags li, .tags .btn li {
+  position: relative;
+  top: -1px; }
+
+.label-default, .tags li, .tags li {
+  background-color: #999999; }
+
+.label-default[href]:hover, .tags li[href]:hover, .tags li[href]:hover, .label-default[href]:focus, .tags li[href]:focus, .tags li[href]:focus {
+  background-color: gray; }
+
+.label-primary {
+  background-color: #1d7cf4; }
+
+.label-primary[href]:hover, .label-primary[href]:focus {
+  background-color: #0a63d4; }
+
+.label-success {
+  background-color: #22ae5f; }
+
+.label-success[href]:hover, .label-success[href]:focus {
+  background-color: #1a8348; }
+
+.label-info {
+  background-color: #5bc0de; }
+
+.label-info[href]:hover, .label-info[href]:focus {
+  background-color: #31b0d5; }
+
+.label-warning {
+  background-color: #ffd66a; }
+
+.label-warning[href]:hover, .label-warning[href]:focus {
+  background-color: #ffc837; }
+
+.label-danger {
+  background-color: #b30015; }
+
+.label-danger[href]:hover, .label-danger[href]:focus {
+  background-color: #80000f; }

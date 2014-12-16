@@ -65,8 +65,8 @@
 
                             <div ng-repeat="deadline in deadlines | filter:{moocId:mooc._id} | filter:cutExpired | orderBy:sortDeadline:false">
                                 <div class="progress" ng-class="{ 'progress-striped active' : isSubsOn(deadline) }">
-                                    <div class="progress-bar with-countdown"
-                                         ng-class="{ 'danger-zone' : !isSubsDone(deadline), 'progress-bar-info' : isSubsDone(deadline) }"
+                                    <div class="progress-bar with-opacity with-countdown"
+                                         ng-class="{ 'danger-zone' : !isSubsDone(deadline), 'progress-bar-info' : isSubsDone(deadline), 'without-opacity' : isInZone('D',deadline.endDate) }"
                                          ng-style="computeZone('D',deadline.endDate)">
                                         <div ng-if="!isEndingNow(deadline.endDate) && isInZone('D',deadline.endDate)" class="dead-btn-wrapper">
                                             &nbsp;
@@ -126,8 +126,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="progress-bar with-countdown"
-                                         ng-class="{ 'warning-zone progress-bar-separator' : !isSubsDone(deadline), 'progress-bar-info' : isSubsDone(deadline)}"
+                                    <div class="progress-bar with-opacity with-countdown"
+                                         ng-class="{ 'warning-zone progress-bar-separator' : !isSubsDone(deadline), 'progress-bar-info' : isSubsDone(deadline), 'without-opacity' : isInZone('W',deadline.endDate) }"
                                          ng-style="computeZone('W',deadline.endDate)">
                                         <div ng-if="isInZone('W',deadline.endDate)" class="dead-btn-wrapper">
                                             <!--<span class="badge"><i class="fa fa-users"></i>&nbsp;42</span>-->
@@ -187,8 +187,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="progress-bar with-countdown"
-                                         ng-class="{ 'relax-zone' : !isSubsDone(deadline), 'progress-bar-info' : isSubsDone(deadline) }"
+                                    <div class="progress-bar with-opacity with-countdown"
+                                         ng-class="{ 'relax-zone' : !isSubsDone(deadline), 'progress-bar-info' : isSubsDone(deadline), 'without-opacity' : isInZone('R',deadline.endDate)  }"
                                          ng-style="computeZone('R',deadline.endDate)">
 
                                         <div ng-if="isInZone('R',deadline.endDate)" class="dead-btn-wrapper">

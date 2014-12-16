@@ -4930,12 +4930,14 @@ em {
 .danger-zone {
   background: #c44230; }
 
-.zeroed {
-  width: 0%;
-}
 .with-opacity {
-  opacity: 0.99;
-  filter: alpha(opacity=99);
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+  /* For IE8 and earlier */ }
+
+.without-opacity {
+  opacity: 1.0;
+  filter: alpha(opacity=100);
   /* For IE8 and earlier */ }
 
 .with-more-opacity {

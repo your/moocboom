@@ -477,8 +477,8 @@ em {
 
 }
 .with-opacity {
-  opacity: 0.99;
-  filter: alpha(opacity=99); /* For IE8 and earlier */
+  opacity: 0.2;
+  filter: alpha(opacity=20); /* For IE8 and earlier */
 }
 
 .with-more-opacity {

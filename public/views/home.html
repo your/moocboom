@@ -66,7 +66,7 @@
                             <div ng-repeat="deadline in deadlines | filter:{moocId:mooc._id} | filter:cutExpired | orderBy:sortDeadline:false">
                                 <div class="progress" ng-class="{ 'progress-striped active' : isSubsOn(deadline) }">
                                     <div class="progress-bar with-opacity with-countdown"
-                                         ng-class="{ 'danger-zone' : !isSubsDone(deadline), 'progress-bar-info' : isSubsDone(deadline), 'without-opacity' : isInZone('D',deadline.endDate) }"
+                                         ng-class="{ 'danger-zone' : !isSubsDone(deadline), 'progress-bar-info' : isSubsDone(deadline), 'without-opacity' : isInZone('D',deadline.endDate) && !isSubsDone(deadline)}"
                                          ng-style="computeZone('D',deadline.endDate)">
                                         <div ng-if="!isEndingNow(deadline.endDate) && isInZone('D',deadline.endDate)" class="dead-btn-wrapper">
                                             &nbsp;
@@ -77,10 +77,9 @@
                                             </a>-->
                                             <div class="dead-btn-second">
 
-                                            <span class="label label-danger">
-                                            <a href="javascript:void(0)"
-                                               class="dead-info"
+                                            <span class="label label-danger dead-info pointer"
                                                title="{{deadline.summary}}"
+                                               container="body"
                                                data-content="
                                                     <i class='fa fa-calendar'> Due: {{getLocalDate(deadline.endDate)}}</i><br><br>
                                                     <i class='fa fa-info-circle'></i> {{deadline.description}}<br><br>
@@ -90,7 +89,7 @@
                                                placement="bottom"
                                                data-auto-close="1"
                                                html="true"
-                                               bs-popover>{{computeLeftStr(deadline.endDate)}}</a></span>
+                                               bs-popover>{{computeLeftStr(deadline.endDate)}}</span>
                                                 <!--&nbsp;-->
                                             </div>
 
@@ -127,7 +126,7 @@
                                         </div>
                                     </div>
                                     <div class="progress-bar with-opacity with-countdown"
-                                         ng-class="{ 'warning-zone progress-bar-separator' : !isSubsDone(deadline), 'progress-bar-info' : isSubsDone(deadline), 'without-opacity' : isInZone('W',deadline.endDate) }"
+                                         ng-class="{ 'warning-zone progress-bar-separator' : !isSubsDone(deadline), 'progress-bar-info' : isSubsDone(deadline), 'without-opacity' : isInZone('W',deadline.endDate) && !isSubsDone(deadline)}"
                                          ng-style="computeZone('W',deadline.endDate)">
                                         <div ng-if="isInZone('W',deadline.endDate)" class="dead-btn-wrapper">
                                             <!--<span class="badge"><i class="fa fa-users"></i>&nbsp;42</span>-->
@@ -138,10 +137,9 @@
                                             </a>-->
                                             <div class="dead-btn-second">
 
-                                            <span class="label label-danger">
-                                            <a href="javascript:void(0)"
-                                               class="dead-info"
+                                            <span class="label label-danger dead-info pointer"
                                                title="{{deadline.summary}}"
+                                               container="body"
                                                data-content="
                                                     <i class='fa fa-calendar'> Due: {{getLocalDate(deadline.endDate)}}</i><br><br>
                                                     <i class='fa fa-info-circle'></i> {{deadline.description}}<br><br>
@@ -151,7 +149,7 @@
                                                placement="bottom"
                                                data-auto-close="1"
                                                html="true"
-                                               bs-popover>{{computeLeftStr(deadline.endDate)}}</a></span>
+                                               bs-popover>{{computeLeftStr(deadline.endDate)}}</span>
                                                 <!--&nbsp;-->
                                             </div>
 
@@ -188,7 +186,7 @@
                                         </div>
                                     </div>
                                     <div class="progress-bar with-opacity with-countdown"
-                                         ng-class="{ 'relax-zone' : !isSubsDone(deadline), 'progress-bar-info' : isSubsDone(deadline), 'without-opacity' : isInZone('R',deadline.endDate)  }"
+                                         ng-class="{ 'relax-zone' : !isSubsDone(deadline), 'progress-bar-info' : isSubsDone(deadline), 'without-opacity' : isInZone('R',deadline.endDate) && !isSubsDone(deadline) }"
                                          ng-style="computeZone('R',deadline.endDate)">
 
                                         <div ng-if="isInZone('R',deadline.endDate)" class="dead-btn-wrapper">
@@ -202,10 +200,9 @@
                                             <!--<i class="fa fa-bell"></i>-->
                                             <div class="dead-btn-second">
 
-                                            <span class="label label-primary">
-                                            <a href="javascript:void(0)"
-                                                    class="dead-info"
+                                            <span class="label label-primary dead-info pointer"
                                                     title="{{deadline.summary}}"
+                                                    container="body"
                                                     data-content="
                                                     <i class='fa fa-calendar'> Due: {{getLocalDate(deadline.endDate)}}</i><br><br>
                                                     <i class='fa fa-info-circle'></i> {{deadline.description}}<br><br>
@@ -215,7 +212,7 @@
                                                     placement="bottom"
                                                     data-auto-close="1"
                                                     html="true"
-                                                    bs-popover>{{computeLeftStr(deadline.endDate)}}</a></span>
+                                                    bs-popover>{{computeLeftStr(deadline.endDate)}}</span>
                                             <!--&nbsp;-->
                                                 </div>
 
@@ -268,10 +265,9 @@
                                         </a>-->
                                         <div class="dead-btn-second">
 
-                                            <span class="label label-danger">
-                                            <a href="javascript:void(0)"
-                                               class="dead-info"
+                                            <span class="label label-danger dead-info pointer"
                                                title="{{deadline.summary}}"
+                                               container="body"
                                                data-content="
                                                     <i class='fa fa-calendar'> Due: {{getLocalDate(deadline.endDate)}}</i><br><br>
                                                     <i class='fa fa-info-circle'></i> {{deadline.description}}<br><br>
@@ -281,7 +277,7 @@
                                                placement="bottom"
                                                data-auto-close="1"
                                                html="true"
-                                               bs-popover>{{computeLeftStr(deadline.endDate)}}</a></span>
+                                               bs-popover>{{computeLeftStr(deadline.endDate)}}</span>
                                             <!--&nbsp;-->
                                         </div>
 

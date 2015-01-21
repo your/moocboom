@@ -44,7 +44,7 @@
     <div class="panel-heading">Add new MOOC</div>
     <div class="panel-body">
       <form class="form" name="addForm">
-        <div class="form-group" ng-class="{ 'has-success' : addForm.showName.$valid && addForm.showName.$dirty, 'has-error' : addForm.showName.$invalid && addForm.showName.$dirty }">
+        <div class="form-group" limit="20" ng-class="{ 'has-success' : addForm.showName.$valid && addForm.showName.$dirty, 'has-error' : addForm.showName.$invalid && addForm.showName.$dirty }">
           <input type="text" class="form-control" name="showName" ng-model="$parent.selectedMooc" ng-click="onTextClick($event)" data-animation="am-fade" ng-options="mooc as mooc.name for mooc in getMooc($viewValue) | filter:{name:$viewValue}" placeholder="Find MOOC by name..." bs-typeahead required>
           <div ng-if="loading">
             <span class="fa fa-circle-o-notch fa-spin"></span>&nbsp;Wait a moment please...

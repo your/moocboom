@@ -48,7 +48,8 @@ var moocSchema = new mongoose.Schema({
 });
 
 var deadlineSchema = new mongoose.Schema({
-  _id : Number,
+/*  _id : Number,*/
+  _id : mongoose.Schema.Types.ObjectId,
   assId : Number,
   sessionName : String,
   summary : String,

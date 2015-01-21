@@ -10,7 +10,8 @@ require 'mongo'
 ##### DON'T USE IF YOU DON'T KNOW WHAT YOU ARE DOING!
 
 # dead class
-class Deadline < Struct.new(:_id, :sessionName, :moocId, :summary, :description, :startDate, :endDate, :url, :type, :hard, :subscribers, :alarmOn, :subsOn, :subsDone); end
+#class Deadline < Struct.new(:_id, :sessionName, :moocId, :summary, :description, :startDate, :endDate, :url, :type, :hard, :subscribers, :alarmOn, :subsOn, :subsDone); end
+class Deadline < Struct.new(:sessionName, :moocId, :summary, :description, :startDate, :endDate, :url, :type, :hard, :subscribers, :alarmOn, :subsOn, :subsDone); end
 
 # json struct
 class Struct
@@ -202,7 +203,7 @@ class ICallMe
 				dead_time_end = event.dtend
 				dead_url = event.location
 				dead_type = event.uid.split('|')[1]
-				dead_id = event.uid.split('|')[2].to_i
+				#dead_id = event.uid.split('|')[2].to_i
 				dead_hard = event.uid.split('|')[3] == 'hard'? 1 : 0 # 1 = hard, 0 = soft
 
 				sub = Array.new
@@ -211,7 +212,7 @@ class ICallMe
 
 				# create object
 				deadline = Deadline.new(
-					dead_id,
+					#dead_id,
 					@session_name,
 					@mooc_id.to_i,	
 					dead_summary,
@@ -226,7 +227,7 @@ class ICallMe
 				# add to deadpool
 				deadpool.push(deadline)
 
-				puts "> dead_id: #{dead_id}" if @verbose_mode
+				#puts "> dead_id: #{dead_id}" if @verbose_mode
 				puts "> dead_summary: #{dead_summary}" if @verbose_mode
 				puts "> dead_description: #{dead_description}" if @verbose_mode
 				puts "> dead_time_beg.to_i: #{dead_time_beg.to_i}" if @verbose_mode

@@ -36,11 +36,10 @@ A *"at one glance"* deadlines-visualization solution for those determined in suc
 
     apt-get install ruby
    
-### Installing [icalendar](https://github.com/icalendar/icalendar) ruby gem (patched)(*):
+### Installing [icalendar](https://github.com/icalendar/icalendar) ruby gem ([patched here](https://github.com/your/icalendar))(*):
 
     gem uninstall icalendar
-    cd icalendar_PATCHED
-    gem build icalendar.gemspec 
+    curl -O https://raw.githubusercontent.com/your/icalendar/master/icalendar-2.2.0.gem
     gem install icalendar-2.2.0.gem 
 
 (\*) N.B. : **this will require the original version to be removed if present**

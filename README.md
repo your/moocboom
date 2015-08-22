@@ -36,7 +36,7 @@ A *"at one glance"* deadlines-visualization solution for those determined in suc
 
     apt-get install ruby
    
-### Installing [icalendar](https://github.com/icalendar/icalendar) ruby gem ([patched here](https://github.com/your/icalendar))(*):
+### Installing [icalendar](https://github.com/icalendar/icalendar) ruby gem ([monkey-patched here](https://github.com/your/icalendar))(*):
 
     gem uninstall icalendar
     curl -O https://raw.githubusercontent.com/your/icalendar/master/icalendar-2.2.0.gem
@@ -50,4 +50,4 @@ http://docs.mongodb.org/manual/tutorial/install-mongodb-on-debian/ (http://docs.
 
 
 ## Old alpha reference
-http://github.com/your/nariga - originally written in Dart with support scripts in Phyton and Ruby
+http://github.com/your/nariga - originally written in Dart with support scripts in Bash, Phyton and Ruby

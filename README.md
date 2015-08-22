@@ -2,7 +2,7 @@
 
 A *"at one glance"* deadlines-visualization solution for those determined in succeding with MOOCs.
 
-More info here: [http://res.sharped.net/](http://res.sharped.net/)
+**Detailed info on the project here: [http://res.sharped.net/](http://res.sharped.net/)**
 
 ## TODO:
 * Design a database to allow people to have a personal account with settings [missing settings part] 50%
@@ -35,7 +35,7 @@ More info here: [http://res.sharped.net/](http://res.sharped.net/)
 
     apt-get install ruby
    
-### Installing icalendar (https://github.com/icalendar/icalendar) ruby gem (patched)(*):
+### Installing [icalendar](https://github.com/icalendar/icalendar) ruby gem (patched)(*):
 
     gem uninstall icalendar
     cd icalendar_PATCHED

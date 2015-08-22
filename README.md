@@ -1,4 +1,5 @@
-# MOOCBOOM #
+# MOOCBOOM
+## Coursera's Deadlines Visualizer #
 
 A *"at one glance"* deadlines-visualization solution for those determined in succeding with MOOCs.
 
@@ -47,3 +48,7 @@ A *"at one glance"* deadlines-visualization solution for those determined in suc
 ### Installing MongoDB
 
 http://docs.mongodb.org/manual/tutorial/install-mongodb-on-debian/ (http://docs.mongodb.org/manual/tutorial/install-mongodb-on-debian/)
+
+
+## Old alpha reference
+http://github.com/your/nariga - originally written in Dart with support scripts in Phyton and Ruby
